@@ -11,7 +11,7 @@ from pydantic import BaseModel
 
 class AppointmentRequest(BaseModel):
     patient_name: str
-    reason: str
+    reason: str | None = None
     start_time: dt.datetime
 
 class AppointmentResponse(BaseModel):
@@ -80,7 +80,10 @@ def cancel_appointment(request: CancelAppointmentRequest, db: Session = Depends(
 
     appointments = result.scalars().all()
     if not appointments:
-        return HTTPException(status_code=404, detail="No matching appointment for the details found in our system")
+        raise HTTPException(
+        status_code=404,
+        detail="No matching appointment for the details found in our system"
+    )
 
     for appointment in appointments:
         appointment.canceled = True
@@ -119,4 +122,4 @@ def list_appointments(request: ListAppointmentRequest, db: Session = Depends(get
 
 import uvicorn
 if __name__ == "__main__":
-    uvicorn.run("backend:app", host="127.0.0.1", port=8501, reload=True)
+    uvicorn.run("backend:app", host="127.0.0.1", port=8000, reload=True)

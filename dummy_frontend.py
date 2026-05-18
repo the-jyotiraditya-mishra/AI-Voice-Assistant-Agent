@@ -4,7 +4,7 @@ import datetime as dt
 import requests
 
 st.title("Indian Hospital Appointment Booking Portal")
-base_url = st.text_input("Backend URL", "http://localhost:8501").rstrip("/")
+base_url = st.text_input("Backend URL", "http://localhost:8000").rstrip("/")
 
 patient_name = st.text_input("Patient name")
 reason = st.text_input("Reason")
